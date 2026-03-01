@@ -1,4 +1,4 @@
-# Enthropic
+![enthropic](banner.svg)
 
 A declarative format for AI-assisted development.
 
@@ -41,15 +41,16 @@ The AI reads this. `AuthToken` stays `AuthToken` in session two, session ten, an
 EBNF grammar, construct reference, validation rules, examples across domains.
 
 **[enthropic-tools](https://github.com/Enthropic-spec/enthropic-tools)** — The CLI toolkit.  
-Validate `.enth` files, manage build state, store secrets encrypted.
+Single binary. No runtime dependencies. Validate, manage state, store secrets encrypted, chat with AI using your spec as context.
 
 ```bash
-pip install enthropic-tools
+# install (requires Rust)
+cargo install --git https://github.com/Enthropic-spec/enthropic-tools
 
-enthropic validate          # validate spec, auto-create state + vault
-enthropic context           # print full AI context block (spec + state)
-enthropic vault set KEY val # store secret encrypted, never in spec
-enthropic vault export      # decrypt to .env (explicit action only)
+enthropic setup         # configure your API key (Anthropic, OpenAI, OpenRouter)
+enthropic new           # guided .enth creation wizard
+enthropic validate      # validate spec, auto-create state + vault
+enthropic build         # AI chat session with your spec pre-loaded as context
 ```
 
 ---
