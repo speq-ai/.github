@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="banner.svg" alt="enthropic" width="840"/>
+  <img src="banner.svg" alt="enthropic"/>
 </p>
 
 ---
