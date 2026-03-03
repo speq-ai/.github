@@ -1,61 +1,51 @@
-![enthropic](banner.svg)
+<p align="center">
+  <img src="banner.svg" alt="enthropic" width="840"/>
+</p>
 
-A declarative format for AI-assisted development.
+---
 
-You write one `.enth` file before writing any code. An AI reads it as context and generates code within the architectural decisions you've already made — not around them.
+<p align="center">
+  A structured format for architectural decisions — readable by humans, unambiguous for AI.
+</p>
+
+<br/>
+
+You write one `.enth` file before writing any code. Every AI session reads it as context. The same spec on two machines, with two different models, produces architecturally identical output.
+
+`.md` files help — but natural language is inherently ambiguous. A structured spec has a grammar, a parser, and a validator. The AI cannot misread it.
 
 ```
-VERSION 1.0
+VERSION 1
 
-PROJECT myapp
-  LANG   python
-  STACK  fastapi, postgresql
-  ARCH   layered
-
-VOCABULARY
-  AuthToken    # never: jwt, token, access_token
-  UserId       # never: user_id, uid, uuid
+PROJECT "my-api"
+  LANG    python
+  STACK   fastapi, postgresql, redis
+  ARCH    layered
 
 ENTITY user, session, order
 
 LAYERS
-  API
-    CALLS   SERVICE
-    NEVER   direct_database_access
-  SERVICE
-    CALLS   REPOSITORY
-    NEVER   http_response_construction
+  API     CALLS SERVICE
+  SERVICE CALLS STORAGE
+  STORAGE
 
 CONTRACTS
-  session.authenticate  ALWAYS  bcrypt-password-verification
-  order.*               REQUIRES authenticated-user
+  user.password  NEVER    plaintext
+  admin.*        REQUIRES verified-auth
 ```
-
-The AI reads this. `AuthToken` stays `AuthToken` in session two, session ten, and on a different machine. The layer boundaries hold. The contracts don't drift.
 
 ---
 
-## Repositories
+**[enthropic](https://github.com/Enthropic-spec/enthropic)** — the spec format. Grammar, validation rules, examples.
 
-**[enthropic](https://github.com/Enthropic-spec/enthropic)** — The specification.  
-EBNF grammar, construct reference, validation rules, examples across domains.
-
-**[enthropic-tools](https://github.com/Enthropic-spec/enthropic-tools)** — The CLI toolkit.  
-Single binary. No runtime dependencies. Validate, manage state, store secrets encrypted, chat with AI using your spec as context.
+**[enthropic-tools](https://github.com/Enthropic-spec/enthropic-tools)** — the CLI companion.
 
 ```bash
-# install (requires Rust)
-cargo install --git https://github.com/Enthropic-spec/enthropic-tools
-
-enthropic setup         # configure your API key (Anthropic, OpenAI, OpenRouter)
-enthropic new           # guided .enth creation wizard
-enthropic validate      # validate spec, auto-create state + vault
-enthropic build         # AI chat session with your spec pre-loaded as context
+npm install -g enthropic
 ```
 
----
-
-## Status
-
-Specification v0.1.0 — early development.  
-The format is working and usable. Breaking changes are possible before v1.0.
+<p align="center">
+  <sub><img src="https://img.shields.io/badge/spec-v0.1.0-ffafff?style=flat&labelColor=0f0f1a" alt="spec v0.1.0"/>
+  &nbsp;
+  <img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="MIT"/></sub>
+</p>
